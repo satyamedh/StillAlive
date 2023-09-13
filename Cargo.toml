@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 clearscreen = "2.0.1"
 colored = "2.0.4"
+soloud = "1.0.5"

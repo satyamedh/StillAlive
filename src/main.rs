@@ -4,8 +4,17 @@ use colored::{ColoredString, Colorize};
 use std::env;
 use std::fmt::format;
 use std::fs;
+use std::fs::File;
+use std::io::BufReader;
+use soloud::*;
+
 
 fn main() {
+
+    thread::spawn(|| {
+        audio();
+    });
+
     let box_vert_line: ColoredString = String::from("------------------------------------------------------------").yellow();
 
     let files_left = [
@@ -38,4 +47,15 @@ fn main() {
 
     }
 
+}
+
+
+fn audio(){
+    let sl = Soloud::default().unwrap();
+    let mut wav = Wav::default();
+    wav.load_mem(include_bytes!("Portal_still_alive.mp3")).unwrap();
+    sl.play(&wav);
+    while sl.voice_count() > 0 {
+        std::thread::sleep(std::time::Duration::from_millis(100));
+    }
 }
