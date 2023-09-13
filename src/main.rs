@@ -1,11 +1,11 @@
-use std::{thread, time::Duration};
+use std::{io, thread, time::Duration};
 use clearscreen;
 use colored::{ColoredString, Colorize};
 use std::env;
 use std::fmt::format;
 use std::fs;
 use std::fs::File;
-use std::io::BufReader;
+use std::io::{BufReader, Write};
 use soloud::*;
 
 
@@ -36,14 +36,21 @@ fn main() {
 
         for line in text {
             let mut to_be_printed: String = String::new();
-            to_be_printed = format!("| {: <56} |", line);
-            println!("{}", to_be_printed.yellow());
+            to_be_printed = format!("{: <58}", line);
+            let to_be_printed: ColoredString = to_be_printed.yellow();
+            print!("{}", "| ".yellow());
+            for letter in to_be_printed.chars(){
+                print!("{}", letter.to_string().yellow());
+                io::stdout().flush().unwrap();
+                if letter != ' ' { thread::sleep(Duration::from_millis(100)); }
+            }
+            println!("{}", " |".yellow());
         }
 
         println!("{}", box_vert_line);
 
         // Sleep 2s
-        thread::sleep(Duration::from_secs(2));
+        thread::sleep(Duration::from_secs(1));
 
     }
 
